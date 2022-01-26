@@ -1,0 +1,28 @@
+<div *ngIf="submit === true && error === false" class="alert alert-success">
+    La tâche a bien été enregistrée.
+</div>
+<div *ngIf="submit === true && error === true" class="alert alert-danger">
+    Le formulaire est mal rempli.
+</div>
+
+<form action="post">
+    <div class="form-group">
+        <label for="title" class="form-label">Titre</label>
+        <input type="text" id="title" class="form-control"
+        [ngClass]="{'is-invalid': title.invalid}" 
+        [formControl]="title">
+        <div *ngIf="title.invalid" class="invalid-feedback">
+            Le titre est obligatoire ete doit faire au moins 4 caractères.
+        </div>
+    </div>
+    <div class="form-group mb-2">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" id="description" class="form-control" 
+        [ngClass]="{'is-invalid': description.invalid}" 
+        [formControl]="description">
+        <div *ngIf="description.invalid" class="invalid-feedback">
+            La description est obligatoire et doit faire au moins 10 caractères.
+        </div>
+    </div>
+    <button class="btn btn-primary" (click)="onSubmit($event)">Envoyer</button>
+</form>

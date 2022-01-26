@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Task } from '../model/task.model';
 import { TaskListService } from '../services/task-list.service';
 
@@ -12,7 +11,7 @@ export class TaskListComponent implements OnInit {
 
   tasks!:Task[];
 
-  constructor(private taskManager:TaskListService, private router:Router) { }
+  constructor(private taskManager:TaskListService) { }
 
   ngOnInit(): void {
     this.tasks = this.taskManager.getAllTasks();
@@ -25,7 +24,7 @@ export class TaskListComponent implements OnInit {
 
   onDelete(id:number): void {
     this.taskManager.delete(id);
-    this.router.navigateByUrl('');
+    this.tasks = this.taskManager.getAllTasks();
   }
 
 }

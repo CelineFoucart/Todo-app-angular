@@ -3,14 +3,6 @@ import { Task } from '../model/task.model';
 import { HttpClient } from '@angular/common/http';
 import { data } from './todo';
 
-type resultType = {
-  id:number, 
-  title:string,
-  description:string,
-  date:string,
-  done:boolean
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -29,23 +21,31 @@ export class TaskListService {
   getTaskById(id:number): Task {
     const task = this.tasks.find(task => task.id === id);
     if(task === undefined) {
-      console.log(id);
       throw new Error("Cette tâche n'existe pas !");
     }
     return task;    
   }
 
-  add(task:Task): boolean {
-    return true;
+  getLastInsertId(): number {
+    return this.tasks[this.tasks.length - 1].id;
   }
 
-  edit(Task:Task): boolean {
-    return true;
+  add(title:string, description:string): void {
+    const id = this.getLastInsertId() + 1;
+    const task = new Task(title, description, id);
+    task.date = new Date();
+    this.tasks.push(task);
   }
 
-  delete(id:number): boolean {
-    
-    return true;
+  edit(title:string, description:string, id:number): void {
+    const task = this.getTaskById(id);
+    task.setValues(title, description);
+  }
+
+  delete(id:number): void {
+    this.tasks = this.tasks.filter(element => {
+      return element.id !== id;
+    });
   }
 
   init(): void {
@@ -55,9 +55,9 @@ export class TaskListService {
     }
     data.forEach(iterator => {
       const task:Task = new Task(
-        iterator.id, 
         iterator.title, 
         iterator.description, 
+        iterator.id, 
         iterator.date,
         iterator.done
       );
