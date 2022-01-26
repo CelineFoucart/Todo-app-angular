@@ -1,0 +1,21 @@
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <header>
+        <h2 class="py-2">Voir une tâche</h2>
+    </header>
+    <div class="card" style="width: 25rem;">
+        <div class="card-header text-center text-muted">
+            <span *ngIf="task.done === true; else undone">Tâche accomplie</span>
+                <ng-template #undone>
+                    <span>Tâche à faire</span>
+                </ng-template>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ task.title }}</h5>
+            <p class="card-text">{{ task.description }}</p>
+            <div class="text-center">
+                <a [routerLink]="['/task/', task.id, 'edit']" title="éditer" class="btn btn-success mx-2">Editer</a>
+                <button (click)="onDelete(task.id)" title="supprimer la tâche" class="btn btn-danger">Supprimer</button>  
+            </div>
+        </div>
+    </div>
+</div>
